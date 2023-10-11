@@ -6,8 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
-class UWidgetComponent;
-
 UENUM(BlueprintType)
 enum class EWeaponState : uint8
 {
@@ -30,16 +28,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	virtual void OnSphereOverlap(
-		UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex,
-		bool bFromSweep,
-		const FHitResult& SweepResult
-	);
-
 private:
 	UPROPERTY(VisibleAnywhere,Category = "Weapon")
 	USkeletalMeshComponent* WeaponMesh;
@@ -52,7 +40,7 @@ private:
 	EWeaponState WeaponState;
 
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
-	UWidgetComponent* PickupWidget;
+	class UWidgetComponent* PickupWidget;
 public:	
 	
 
