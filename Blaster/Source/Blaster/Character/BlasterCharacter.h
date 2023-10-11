@@ -38,7 +38,10 @@ private:
 	UInputAction* IA_Look;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* IA_Jump;
-	
+
+	UPROPERTY(EditAnywhere, Category = "HUD", BlueprintReadOnly, meta = (AllowPrivateAccess = true)) //변수를 블루프린트에 노출
+	class UWidgetComponent* OverheadWidget;
+
 protected:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
