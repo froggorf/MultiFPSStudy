@@ -19,6 +19,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//[복제-2] 서버로부터 Replicated (복제) 가져오는 함수
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -42,6 +45,18 @@ private:
 	UPROPERTY(EditAnywhere, Category = "HUD", BlueprintReadOnly, meta = (AllowPrivateAccess = true)) //변수를 블루프린트에 노출
 	class UWidgetComponent* OverheadWidget;
 
+	//[복제-1]서버에서 복제로 생성되는 것에 대한 속성
+	//UPROPERTY(Replicated)
+	//[복제-4] 복제될 때 Rep_Notify 도 적용되도록
+	UPROPERTY(ReplicatedUsing = OnRep_OverlappingWeapon)
+	class AWeapon* OverlappingWeapon;
+
+	//인자를 안넘겨줄 수 있지만, 제거할 때 등에 대비해서
+	// 같은 클래스의 것은 변수로 넘겨줄 수 있음
+	UFUNCTION()
+	//void OnRep_OverlappingWeapon();
+	void OnRep_OverlappingWeapon(AWeapon* LastWeapon);
+
 protected:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
@@ -49,5 +64,5 @@ protected:
 
 
 public:
-
+	void SetOverlappingWeapon(AWeapon* Weapon);
 };
