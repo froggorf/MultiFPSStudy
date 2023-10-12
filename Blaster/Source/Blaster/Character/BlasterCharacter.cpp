@@ -132,6 +132,8 @@ void ABlasterCharacter::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
 	}
 }
 
+
+
 void ABlasterCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D MovementVector = Value.Get<FVector2D>();
@@ -153,7 +155,25 @@ void ABlasterCharacter::Look(const FInputActionValue& Value)
 void ABlasterCharacter::EquipButtonPressed(const FInputActionValue& Value)
 {
 	//서버에서만 가능하게 해야하므로, HasAuthority()를 추가
-	if(CombatComponent&&HasAuthority())
+	if(CombatComponent)
+	{
+		if(HasAuthority())
+		{
+			CombatComponent->EquipWeapon(OverlappingWeapon);
+		}
+		else
+		{
+			Server_EquipButtonPressed();
+		}
+	}
+}
+
+//RPC 함수에 대해서
+//정의를 할 때에는 해당 함수 이름의 뒤에 _Implementation 을 추가해준다.
+//실행할 때에는 그냥 Server_EquipButtonPressed(); 이렇게 실행하면 된다.
+void ABlasterCharacter::Server_EquipButtonPressed_Implementation()
+{
+	if (CombatComponent)
 	{
 		CombatComponent->EquipWeapon(OverlappingWeapon);
 	}

@@ -63,6 +63,12 @@ private:
 	//void OnRep_OverlappingWeapon();
 	void OnRep_OverlappingWeapon(AWeapon* LastWeapon);
 
+
+	//RPC - Remote Procedure Call (로컬에서 호출 되지만, 호출 머신이 아닌 다른 머신에서 원격 실행되는 함수)
+	//일회성 행동들 - Reliable
+	UFUNCTION(Server,Reliable)
+	void Server_EquipButtonPressed();
+
 protected:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);

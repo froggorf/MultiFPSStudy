@@ -67,6 +67,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	UWidgetComponent* PickupWidget;
 public:	
-	void SetWeaponState(EWeaponState State);
-	FORCEINLINE USphereComponent* GetAreaSphere() const { return AreaSphere; }
+	FORCEINLINE void SetWeaponState(EWeaponState State) { WeaponState = State; }
+
 };

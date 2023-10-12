@@ -79,20 +79,6 @@ void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	}
 }
 
-void AWeapon::SetWeaponState(EWeaponState State)
-{
-	WeaponState = State;
-
-	switch (WeaponState)
-	{
-	case EWeaponState::EWS_Equipped:
-		ShowPickupWidget(false);
-		GetAreaSphere()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		break;
-	}
-
-}
-
 void AWeapon::OnRep_WeaponState()
 {
 	switch(WeaponState)
@@ -108,7 +94,6 @@ void AWeapon::OnRep_WeaponState()
 		break;
 	}
 }
-
 
 void AWeapon::Tick(float DeltaTime)
 {
