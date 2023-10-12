@@ -21,7 +21,8 @@ public:
 
 	//[복제-2] 서버로부터 Replicated (복제) 가져오는 함수
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
+	//[컴퍼넌트] 컴퍼넌트가 생성될 때 실행되는 함수
+	virtual void PostInitializeComponents() override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -41,6 +42,8 @@ private:
 	UInputAction* IA_Look;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* IA_Jump;
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* IA_EquipWeapon;
 
 	UPROPERTY(EditAnywhere, Category = "HUD", BlueprintReadOnly, meta = (AllowPrivateAccess = true)) //변수를 블루프린트에 노출
 	class UWidgetComponent* OverheadWidget;
@@ -51,6 +54,9 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_OverlappingWeapon)
 	class AWeapon* OverlappingWeapon;
 
+	UPROPERTY(VisibleAnywhere)
+	class UCombatComponent* CombatComponent;
+
 	//인자를 안넘겨줄 수 있지만, 제거할 때 등에 대비해서
 	// 같은 클래스의 것은 변수로 넘겨줄 수 있음
 	UFUNCTION()
@@ -60,6 +66,7 @@ private:
 protected:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void EquipButtonPressed(const FInputActionValue& Value);
 	
 
 
