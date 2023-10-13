@@ -44,6 +44,9 @@ private:
 	UInputAction* IA_Jump;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* IA_EquipWeapon;
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* IA_Crouch;
+
 
 	UPROPERTY(EditAnywhere, Category = "HUD", BlueprintReadOnly, meta = (AllowPrivateAccess = true)) //변수를 블루프린트에 노출
 	class UWidgetComponent* OverheadWidget;
@@ -73,7 +76,7 @@ protected:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void EquipButtonPressed(const FInputActionValue& Value);
-	
+	void CrouchButtonPressed(const FInputActionValue& Value);
 
 
 public:

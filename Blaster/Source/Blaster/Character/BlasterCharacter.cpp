@@ -38,6 +38,9 @@ ABlasterCharacter::ABlasterCharacter()
 	//Combat Component를 Replicating Component로 만들기
 	//Replicate 될 수 있게만 해주면 됨, GetLifetimeReplicatedProps라던가 기타 등등을 설정할 필요가 없다고함
 	CombatComponent->SetIsReplicated(true);
+
+	// Can Crouch 설정 // Crouch() 정의에서 CanCrouch() 정의, CanEverCrouch() 를 통해 무슨 변수를 기준으로 하는지 확인 가능함.
+	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 }
 
 void ABlasterCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -112,6 +115,7 @@ void ABlasterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ThisClass::Jump);
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ThisClass::StopJumping);
 		EnhancedInputComponent->BindAction(IA_EquipWeapon, ETriggerEvent::Started, this, &ABlasterCharacter::EquipButtonPressed);
+		EnhancedInputComponent->BindAction(IA_Crouch, ETriggerEvent::Started, this, &ABlasterCharacter::CrouchButtonPressed);
 	}
 }
 
@@ -166,6 +170,19 @@ void ABlasterCharacter::EquipButtonPressed(const FInputActionValue& Value)
 			Server_EquipButtonPressed();
 		}
 	}
+}
+
+void ABlasterCharacter::CrouchButtonPressed(const FInputActionValue& Value)
+{
+	if (bIsCrouched)
+	{
+		UnCrouch();
+	}
+	else
+	{
+		Crouch();
+	}
+	
 }
 
 //RPC 함수에 대해서

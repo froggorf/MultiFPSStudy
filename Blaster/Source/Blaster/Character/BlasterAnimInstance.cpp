@@ -31,9 +31,8 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	Speed = Velocity.Length();
 
 	bIsJumping = BlasterCharacter->GetCharacterMovement()->IsFalling();
-
 	bIsAcceleration = BlasterCharacter->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.0f ? true : false;
-
 	bWeaponEquipped = BlasterCharacter->IsWeaponEquipped();
+	bIsCrouched = BlasterCharacter->bIsCrouched;
 }
 
