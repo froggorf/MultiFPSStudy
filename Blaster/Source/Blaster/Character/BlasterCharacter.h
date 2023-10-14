@@ -46,6 +46,8 @@ private:
 	UInputAction* IA_EquipWeapon;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* IA_Crouch;
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* IA_Aiming;
 
 
 	UPROPERTY(EditAnywhere, Category = "HUD", BlueprintReadOnly, meta = (AllowPrivateAccess = true)) //변수를 블루프린트에 노출
@@ -77,9 +79,11 @@ protected:
 	void Look(const FInputActionValue& Value);
 	void EquipButtonPressed(const FInputActionValue& Value);
 	void CrouchButtonPressed(const FInputActionValue& Value);
-
+	void AimButtonPressed(const FInputActionValue& Value);
+	void AimButtonReleased(const FInputActionValue& Value);
 
 public:
 	void SetOverlappingWeapon(AWeapon* Weapon);
 	bool IsWeaponEquipped();
+	bool IsAiming();
 };

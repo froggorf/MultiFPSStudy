@@ -116,6 +116,8 @@ void ABlasterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ThisClass::StopJumping);
 		EnhancedInputComponent->BindAction(IA_EquipWeapon, ETriggerEvent::Started, this, &ABlasterCharacter::EquipButtonPressed);
 		EnhancedInputComponent->BindAction(IA_Crouch, ETriggerEvent::Started, this, &ABlasterCharacter::CrouchButtonPressed);
+		EnhancedInputComponent->BindAction(IA_Aiming, ETriggerEvent::Started, this, &ThisClass::AimButtonPressed);
+		EnhancedInputComponent->BindAction(IA_Aiming, ETriggerEvent::Completed, this, &ThisClass::AimButtonReleased);
 	}
 }
 
@@ -185,6 +187,22 @@ void ABlasterCharacter::CrouchButtonPressed(const FInputActionValue& Value)
 	
 }
 
+void ABlasterCharacter::AimButtonPressed(const FInputActionValue& Value)
+{
+	if(CombatComponent)
+	{
+		CombatComponent->SetAiming(true);
+	}
+}
+
+void ABlasterCharacter::AimButtonReleased(const FInputActionValue& Value)
+{
+	if(CombatComponent)
+	{
+		CombatComponent->SetAiming(false);
+	}
+}
+
 //RPC 함수에 대해서
 //정의를 할 때에는 해당 함수 이름의 뒤에 _Implementation 을 추가해준다.
 //실행할 때에는 그냥 Server_EquipButtonPressed(); 이렇게 실행하면 된다.
@@ -219,4 +237,9 @@ void ABlasterCharacter::SetOverlappingWeapon(AWeapon* Weapon)
 bool ABlasterCharacter::IsWeaponEquipped()
 {
 	return (CombatComponent && CombatComponent->EquippedWeapon);
+}
+
+bool ABlasterCharacter::IsAiming()
+{
+	return (CombatComponent && CombatComponent->bAiming);
 }
